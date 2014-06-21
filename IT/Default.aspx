@@ -13,10 +13,18 @@
             font-family: Papyrus;
             font-size: 24px;
         }
+
         span
         {
             font-family: Papyrus;
             font-size: 24px;
+        }
+        .buttons
+        {
+            width:100px;
+            float: left;
+            margin-left: 130px;
+            margin-top: 200px;
         }
         .content
         {
@@ -29,12 +37,10 @@
         table
         {
             border-collapse: collapse;
-            
             font-family: Calibri, sans-serif;
-            margin-left: 264px;
+            margin-left: 100px;
             margin-top: 50px;
-       
-            background:rgba(245,245,220,0.68);
+            background: rgba(245,245,220,0.68);
         }
 
         colgroup, tbody
@@ -51,6 +57,10 @@
             text-align: center;
             padding: 0;
             vertical-align: central;
+        }
+        input[type=button], input[type=submit]
+        {
+            background-color: beige;
         }
 
         input
@@ -85,6 +95,10 @@
             __doPostBack('btnHidden', $('#btnHidden').text());
         }
 
+        function about()
+        {
+            alert("Created by Irena, Monika and Natasha");
+        }
 
         function handleKeypress(event) {
             var key;
@@ -109,6 +123,7 @@
 </head>
 <body>
     <div align="center">
+
         <div class="content">
             <form id="form1" runat="server" onkeypress="Test()">
 
@@ -120,6 +135,19 @@
                 <asp:Button Style="display: none;" runat="server" ID="btnHidden2" OnClick="keyPress" />
 
                 <p>&nbsp;</p>
+                <div class="buttons">
+                    <asp:Button runat="server" ID="easy" OnClick="new_Easy" Text="Easy Game" />
+                    
+                    </br>
+                    <asp:Button  runat="server" ID="medium" OnClick="new_Medium" Text="Medium Game"/>
+                    
+                    </br>
+                    <asp:Button runat="server" ID="hard" OnClick="new_Hard" Text="Hard Game"/>
+                    
+                    </br>
+                    <input type="button" value="About" onclick="about()"/>
+
+                </div>
                 <asp:Table ID="Table1" runat="server">
 
                     <asp:TableRow runat="server">

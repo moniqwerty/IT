@@ -44,7 +44,7 @@ namespace IT
             // se izvrsuva pri prvo loadiranje. generira novo nivo na sudoku
             if (!IsPostBack)
             {
-                game = new Grid(2);
+                game = new Grid(1);
 
                 
                 int[,] set = game.game._numberSet;
@@ -70,6 +70,13 @@ namespace IT
                 }
                 ViewState["game"] = game;
 
+            }
+        }
+        private void empty()
+        {
+            foreach (Label l in labels)
+            {
+                l.Text = ""; 
             }
         }
         private bool GameFinished()
@@ -190,6 +197,99 @@ namespace IT
 
                 }
             }
+
+        }
+        protected void new_Easy(object sender, EventArgs e)
+        {
+            empty();
+            game = new Grid(0);
+
+
+            int[,] set = game.game._numberSet;
+            int[,] mset = game.game._problemSet;
+
+            int k = 0;
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+
+                    if (mset[i, j] != 0)
+                    {
+                        game.values[k] = mset[i, j];
+
+                        labels[k].Text = Convert.ToString(game.values[k]);
+                        labels[k].Font.Bold = true;
+                        game.firstGenerated.Add(k);
+                    }
+                    k++;
+                }
+
+            }
+            ViewState["game"] = game;
+
+
+        }
+        protected void new_Medium(object sender, EventArgs e)
+        {
+            empty();
+            game = new Grid(1);
+
+
+            int[,] set = game.game._numberSet;
+            int[,] mset = game.game._problemSet;
+
+            int k = 0;
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+
+                    if (mset[i, j] != 0)
+                    {
+                        game.values[k] = mset[i, j];
+
+                        labels[k].Text = Convert.ToString(game.values[k]);
+                        labels[k].Font.Bold = true;
+                        game.firstGenerated.Add(k);
+                    }
+                    k++;
+                }
+
+            }
+            ViewState["game"] = game;
+
+
+        }
+        protected void new_Hard(object sender, EventArgs e)
+        {
+            empty();
+            game = new Grid(2);
+
+
+            int[,] set = game.game._numberSet;
+            int[,] mset = game.game._problemSet;
+
+            int k = 0;
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+
+                    if (mset[i, j] != 0)
+                    {
+                        game.values[k] = mset[i, j];
+
+                        labels[k].Text = Convert.ToString(game.values[k]);
+                        labels[k].Font.Bold = true;
+                        game.firstGenerated.Add(k);
+                    }
+                    k++;
+                }
+
+            }
+            ViewState["game"] = game;
+
 
         }
 
