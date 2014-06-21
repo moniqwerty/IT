@@ -152,15 +152,20 @@ namespace IT
 
         protected void Grid_Click(object sender, EventArgs e)
         {
-           
+            TableCell td;
+            TableCell last;
             Label lbl = (Label)FindControl(Request["__EVENTARGUMENT"]);
             if (ViewState["lastClicked"] != null)
             {
                 lastClicked = (Label)FindControl((string)ViewState["lastClicked"]);
-                lastClicked.BackColor = Color.White;
+                last = (TableCell)lastClicked.Parent;
+                last.BackColor = Color.White;
+                //lastClicked.BackColor = Color.White;
             }
             ViewState["lastClicked"] = lbl.ID;
-            lbl.BackColor = Color.Yellow;
+            td = (TableCell)lbl.Parent;
+            td.BackColor = Color.Yellow;
+          //  lbl.BackColor = Color.Yellow;
         }
         protected void keyPress(object sender, EventArgs e)
         {
