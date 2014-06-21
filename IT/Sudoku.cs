@@ -8,6 +8,7 @@ namespace Sudoku
 
         public enum GameLevel
         {
+            TEST,
             SIMPLE,
             MEDIUM,
             COMPLEX
@@ -103,7 +104,12 @@ namespace Sudoku
                 // Now unmask positions and create problem set.
                 switch (level)
                 {
-
+                    case GameLevel.TEST:
+                        minPos = 7;
+                        maxPos = 8;
+                        noOfSets = 9;
+                        UnMask(minPos, maxPos, noOfSets);
+                        break;
                     case GameLevel.SIMPLE:
                         minPos = 4;
                         maxPos = 6;

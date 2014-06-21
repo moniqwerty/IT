@@ -32,7 +32,11 @@ namespace Sudoku
 
             for (int i = 0; i < 81; i++)
                 values.Add(0);
-            
+
+            if (gameDiff == 3)
+            {
+                game.GenerateGame(GameLevel.TEST);
+            }
             if (gameDiff == 0)
             {
                 game.GenerateGame(GameLevel.SIMPLE);
