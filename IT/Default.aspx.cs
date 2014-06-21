@@ -24,6 +24,11 @@ namespace IT
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["time"] == null)
+            {
+                Session["time"] = 0;
+            }
+
             //Response.Write("<SCRIPT>alert('Game finished')</SCRIPT>");
             if (ViewState["game"] != null)
             {
@@ -36,8 +41,6 @@ namespace IT
                 Label label = (Label)FindControl("Label" + i);
                 //label.EnableViewState = true;
                 labels.Add(label);
-                
-
             }
             
                         
@@ -160,21 +163,30 @@ namespace IT
 
         protected void Grid_Click(object sender, EventArgs e)
         {
+            updateCell(Request["__EVENTARGUMENT"]);
+            
+        }
+        public void updateCell(String labelName)
+        {
             TableCell td;
             TableCell last;
-            Label lbl = (Label)FindControl(Request["__EVENTARGUMENT"]);
+            Label lbl = (Label)FindControl(labelName);
             if (ViewState["lastClicked"] != null)
             {
                 lastClicked = (Label)FindControl((string)ViewState["lastClicked"]);
                 last = (TableCell)lastClicked.Parent;
-                last.BackColor = Color.Transparent;
+                last.CssClass = "transparent";
+                //last.BackColor = Color.Transparent;
                 //lastClicked.BackColor = Color.White;
             }
             ViewState["lastClicked"] = lbl.ID;
             td = (TableCell)lbl.Parent;
-            td.BackColor = Color.Beige;
+            td.CssClass = "selected";
+            
+            //td.BackColor = Color.Beige;
             //  lbl.BackColor = Color.Yellow;
         }
+
         public void playMove(int index, int value)
         {
             // na labela so indeks index stava text = value
@@ -193,7 +205,8 @@ namespace IT
             CheckAll();
             if (GameFinished())
             {
-                Response.Write("<SCRIPT>alert('Game finished')</SCRIPT>");
+                
+                //Response.Write("<SCRIPT>alert('Game finished, Your score is "+ secondsTotal + " !')</SCRIPT>");
             }            
         }
 
@@ -219,7 +232,7 @@ namespace IT
         protected void new_Easy(object sender, EventArgs e)
         {
             empty();
-            game = new Grid(0);
+            game = new Grid(3);
 
 
             int[,] set = game.game._numberSet;
@@ -244,7 +257,7 @@ namespace IT
 
             }
             ViewState["game"] = game;
-
+            Session["time"] = 0;
 
         }
         protected void new_Medium(object sender, EventArgs e)
@@ -275,7 +288,7 @@ namespace IT
 
             }
             ViewState["game"] = game;
-
+            Session["time"] = 0;
 
         }
         protected void new_Hard(object sender, EventArgs e)
@@ -306,7 +319,7 @@ namespace IT
 
             }
             ViewState["game"] = game;
-
+            Session["time"] = 0;
 
         }
 
@@ -355,6 +368,42 @@ namespace IT
             GameItem item = game.redo();
             if (item == null) return;
             playMove(item.index, item.value);
+        }
+
+        protected void keyDown(object sender, EventArgs e)
+        {
+            int keyCode = int.Parse(Request["__EVENTARGUMENT"]);
+            int index = int.Parse(((string)ViewState["lastClicked"]).Substring(5));
+            int nextindex = -1;
+            switch (keyCode)
+            {
+                case 37:
+                    nextindex = index - 1;
+                    break;
+                case 38:
+                    nextindex = index - 9;
+                    break;
+                case 39: 
+                    nextindex = index + 1;
+                    break;
+                case 40:
+                    nextindex = index + 9;
+                    break;
+            }
+            if (nextindex < 1 || nextindex > 81) return;
+            updateCell("Label" + nextindex);
+        }
+
+        protected void Timer1_Tick(object sender, EventArgs e)
+        {
+            int t = (int)Session["time"] + 1 ;
+            Session["time"] = t;
+            int h = t/3600;
+            int m = t%3600/60;
+            int s = t%60;
+            hours.Text = (h > 9 ? h + "" : "0" + h);
+            minutes.Text = (m > 9 ? m + "" : "0" + m);
+            seconds.Text = (s > 9 ? s + "" : "0" + s);
         }
     }
 }

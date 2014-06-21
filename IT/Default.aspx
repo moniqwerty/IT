@@ -6,6 +6,14 @@
 <head runat="server">
 
     <style>
+        .selected {
+            background-color: beige;
+        }
+
+        .transparent {
+            background-color: transparent;
+        }
+
         body {
             background-image: url('parchment-30.jpg');
             background-color: #cccccc;
@@ -81,30 +89,6 @@
     <script src="http://ajax.microsoft.com/ajax/jquery/jquery-1.4.1.min.js" type="text/javascript"></script>
 
     <script>
-        var myVar = setInterval(function () { myTimer() }, 1000);
-
-        function myTimer() {
-            var h = parseInt($('#hours').text());
-            var m = parseInt($('#minutes').text());
-            var s = parseInt($('#seconds').text());
-
-            s = s + 1;
-            if (s == 60) {
-                s = 0;
-                m = m + 1;
-            }
-            if (m == 60) {
-                m = 0;
-                s = s + 1;
-            }
-            var hh = h > 9 ? h : '0' + h;
-            var mm = m > 9 ? m : '0' + m;
-            var ss = s > 9 ? s : '0' + s;
-            $('#hours').text(hh);
-            $('#minutes').text(mm);
-            $('#seconds').text(ss);
-        }
-
         function callClick() {
             $('#btnHidden').text($(event.target).attr('data-name'));
             __doPostBack('btnHidden', $('#btnHidden').text());
@@ -131,6 +115,13 @@
         if (document.layers) {
             document.captureEvents(Event.KEYPRESS);
         }
+        function handleKeyDown(event) {
+            if (event.which >= 37 && event.which <= 40) {
+                $('#btnHidden3').text(event.which);
+                __doPostBack('btnHidden3', $('#btnHidden3').text());
+            }
+        }
+        document.onkeydown = handleKeyDown;
         document.onkeypress = handleKeypress;
     </script>
     <title>Sudoku of the day</title>
@@ -140,13 +131,29 @@
 
         <div class="content">
             <form id="form1" runat="server" onkeypress="Test()">
-                <p><span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span></p>
                 <asp:ScriptManager ID="ScriptManager1"
                     EnablePageMethods="true"
                     EnablePartialRendering="true" runat="server" />
+                <asp:Timer ID="timer" runat="server" Interval="1000" OnTick="Timer1_Tick"></asp:Timer>
+                <asp:UpdatePanel ID="updatePanel" runat="server">
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="timer" />
+
+                    </Triggers>
+                    <ContentTemplate>
+                        <p>
+                            <asp:Label Visible="false" runat="server" ID="ticks" Text="0" />
+                            <asp:Label ID="hours" runat="server" Text="00" />:
+                            <asp:Label ID="minutes" runat="server" Text="00" />:
+                            <asp:Label ID="seconds" runat="server" Text="00" />
+                        </p>
+                    </ContentTemplate>
+
+                </asp:UpdatePanel>
 
                 <asp:Button Style="display: none;" runat="server" ID="btnHidden" OnClick="Grid_Click" />
                 <asp:Button Style="display: none;" runat="server" ID="btnHidden2" OnClick="keyPress" />
+                <asp:Button Style="display: none;" runat="server" ID="btnHidden3" OnClick="keyDown" />
 
                 <p>&nbsp;</p>
                 <div class="buttons">
