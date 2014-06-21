@@ -45,9 +45,6 @@ namespace IT
                     for (int i = 1; i < 82; i++)
                     {
                         labels.Add((Label)FindControl("Label" + i));
-                        //labels[i-1].Parent.Attributes.Add("onclick", string.Format("javascript:__doPostBack('{0}','')", this.btnHidden.UniqueID));
-                        //  labels[i - 1].Click += new EventHandler(Grid_Click);
-
 
                     }
                     int[,] set = game.game._numberSet;
@@ -155,9 +152,7 @@ namespace IT
 
         protected void Grid_Click(object sender, EventArgs e)
         {
-            
-           // Label lbl = sender as Label;
-            //Button hidden  = btnHidden;
+           
             Label lbl = (Label)FindControl(Request["__EVENTARGUMENT"]);
             if (ViewState["lastClicked"] != null)
             {
@@ -167,11 +162,17 @@ namespace IT
             ViewState["lastClicked"] = lbl.ID;
             lbl.BackColor = Color.Yellow;
         }
-
-        public static string cellClick()
+        protected void keyPress(object sender, EventArgs e)
         {
-            return "Hello";
+
+            if (ViewState["lastClicked"] != null)
+            {
+                lastClicked = (Label)FindControl((string)ViewState["lastClicked"]);
+                lastClicked.Text = (Int32.Parse(Request["__EVENTARGUMENT"])-48).ToString();
+            }
+            
         }
+
 
     }
 }

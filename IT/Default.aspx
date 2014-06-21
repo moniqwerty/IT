@@ -8,18 +8,36 @@
 
     <script>
         function callClick() {
-
             $('#btnHidden').text($(event.target).attr('data-name'));
-            alert($('#btnHidden').text());
             __doPostBack('btnHidden', $('#btnHidden').text());
         }
+
+
+        function handleKeypress(event) {
+            var key;
+
+            if (document.layers) {
+                key = event.which;
+            }
+            if (document.all) {
+                event = window.event;
+                key = event.keyCode;
+            }
+            if (event.keyCode >= 48 && event.keyCode <= 57) {
+                __doPostBack('btnHidden2', event.keyCode);
+            }
+        }
+        if (document.layers) {
+            document.captureEvents(Event.KEYPRESS);
+        }
+        document.onkeypress = handleKeypress;
     </script>
     <title></title>
 </head>
 <body>
 
-    <form id="form1" runat="server">
-
+    <form id="form1" runat="server" onkeypress="Test()">
+        
         <asp:ScriptManager ID="ScriptManager1"
             EnablePageMethods="true"
             EnablePartialRendering="true" runat="server" />
@@ -58,8 +76,9 @@
                 width: 100%;
             }
         </style>
-        <asp:Button runat="server" ID="btnHidden" OnClick="Grid_Click" />
-        <p>Sudoku of the day</p>
+        <asp:Button style="display:none;" runat="server" ID="btnHidden" OnClick="Grid_Click" />
+        <asp:Button style="display:none;" runat="server" ID="btnHidden2" OnClick="keyPress" />
+        <p onkeypress="Test()">Sudoku of the day</p>
         <asp:Table ID="Table1" runat="server">
 
             <asp:TableRow runat="server">
