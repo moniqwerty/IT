@@ -6,36 +6,33 @@
 <head runat="server">
 
     <style>
-        body
-        {
+        body {
             background-image: url('parchment-30.jpg');
             background-color: #cccccc;
             font-family: Papyrus;
             font-size: 24px;
         }
 
-        span
-        {
+        span {
             font-family: Papyrus;
             font-size: 24px;
         }
-        .buttons
-        {
-            width:100px;
+
+        .buttons {
+            width: 100px;
             float: left;
             margin-left: 130px;
             margin-top: 200px;
         }
-        .content
-        {
+
+        .content {
             height: 715px;
             width: 998px;
             background-image: url('dragon.jpg');
             margin-top: -20px;
         }
 
-        table
-        {
+        table {
             border-collapse: collapse;
             font-family: Calibri, sans-serif;
             margin-left: 100px;
@@ -43,13 +40,11 @@
             background: rgba(245,245,220,0.68);
         }
 
-        colgroup, tbody
-        {
+        colgroup, tbody {
             border: solid medium;
         }
 
-        td
-        {
+        td {
             border-color: rgba(75, 58, 30, 1);
             border: solid thin;
             height: 2.4em;
@@ -58,45 +53,64 @@
             padding: 0;
             vertical-align: central;
         }
-        input[type=button], input[type=submit]
-        {
+
+        input[type=button], input[type=submit] {
             background-color: beige;
         }
 
-        input
-        {
+        input {
             color: #000000;
             text-decoration: none;
             height: 100%;
             width: 100%;
         }
 
-        td div
-        {
+        td div {
             height: 100%;
             width: 100%;
         }
 
-        td:nth-child(3n)
-        {
+        td:nth-child(3n) {
             border-right: solid medium;
         }
 
-        tr:nth-child(3n)
-        {
+        tr:nth-child(3n) {
             border-bottom: solid medium;
         }
     </style>
     <script src="http://ajax.microsoft.com/ajax/jquery/jquery-1.4.1.min.js" type="text/javascript"></script>
 
     <script>
+        var myVar = setInterval(function () { myTimer() }, 1000);
+
+        function myTimer() {
+            var h = parseInt($('#hours').text());
+            var m = parseInt($('#minutes').text());
+            var s = parseInt($('#seconds').text());
+
+            s = s + 1;
+            if (s == 60) {
+                s = 0;
+                m = m + 1;
+            }
+            if (m == 60) {
+                m = 0;
+                s = s + 1;
+            }
+            var hh = h > 9 ? h : '0' + h;
+            var mm = m > 9 ? m : '0' + m;
+            var ss = s > 9 ? s : '0' + s;
+            $('#hours').text(hh);
+            $('#minutes').text(mm);
+            $('#seconds').text(ss);
+        }
+
         function callClick() {
             $('#btnHidden').text($(event.target).attr('data-name'));
             __doPostBack('btnHidden', $('#btnHidden').text());
         }
 
-        function about()
-        {
+        function about() {
             alert("Created by Irena, Monika and Natasha");
         }
 
@@ -126,7 +140,7 @@
 
         <div class="content">
             <form id="form1" runat="server" onkeypress="Test()">
-
+                <p><span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span></p>
                 <asp:ScriptManager ID="ScriptManager1"
                     EnablePageMethods="true"
                     EnablePartialRendering="true" runat="server" />
@@ -137,22 +151,22 @@
                 <p>&nbsp;</p>
                 <div class="buttons">
                     <asp:Button runat="server" ID="easy" OnClick="new_Easy" Text="Easy Game" />
-                    
-                    <br/>
-                    <asp:Button  runat="server" ID="medium" OnClick="new_Medium" Text="Medium Game"/>
-                    
-                    <br/>
-                    <asp:Button runat="server" ID="hard" OnClick="new_Hard" Text="Hard Game"/>
-                    
-                    <br/>
-                    <input type="button" value="About" onclick="about()"/>
+
                     <br />
-                    <asp:Button runat="server" ID="btnHighScores" Text="High Scores"/>
+                    <asp:Button runat="server" ID="medium" OnClick="new_Medium" Text="Medium Game" />
+
+                    <br />
+                    <asp:Button runat="server" ID="hard" OnClick="new_Hard" Text="Hard Game" />
+
+                    <br />
+                    <input type="button" value="About" onclick="about()" />
+                    <br />
+                    <asp:Button runat="server" ID="btnHighScores" Text="High Scores" />
                     <br />
                     <br />
                     <br />
-                    <asp:Button runat="server" ID="btnUndo" Text="Undo" OnClick="btnUndo_Click"/>
-                    <asp:Button runat="server" ID="btnRedo" Text="Redo" OnClick="btnRedo_Click"/>
+                    <asp:Button runat="server" ID="btnUndo" Text="Undo" OnClick="btnUndo_Click" />
+                    <asp:Button runat="server" ID="btnRedo" Text="Redo" OnClick="btnRedo_Click" />
                 </div>
                 <asp:Table ID="Table1" runat="server">
 
