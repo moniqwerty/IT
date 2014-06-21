@@ -175,27 +175,44 @@ namespace IT
             td.BackColor = Color.Beige;
             //  lbl.BackColor = Color.Yellow;
         }
+        public void playMove(int index, int value)
+        {
+            // na labela so indeks index stava text = value
+            // ako value == 0, ja brise sodrzinata na labelata
+
+            lastClicked = (Label)FindControl("Label" + index);
+            if (value == 0)
+            {
+                lastClicked.Text = "";
+            }
+            else
+            {
+                lastClicked.Text = value + "";
+            }
+            
+            CheckAll();
+            if (GameFinished())
+            {
+                Response.Write("<SCRIPT>alert('Game finished')</SCRIPT>");
+            }            
+        }
+
         protected void keyPress(object sender, EventArgs e)
         {
 
             if (ViewState["lastClicked"] != null)
             {
-                lastClicked = (Label)FindControl((string)ViewState["lastClicked"]);
-                
+                int index = int.Parse(((string)ViewState["lastClicked"]).Substring(5))-1;
                 Grid game = (Grid)ViewState["game"];
-                if (game.firstGenerated.Contains(int.Parse(((string)ViewState["lastClicked"]).Substring(5))-1))
+                if (game.firstGenerated.Contains(index))
                 {
                     return;
                 }
 
-                lastClicked.Text = (Int32.Parse(Request["__EVENTARGUMENT"]) - 48).ToString();
-                //int index = Int32.Parse(ViewState["lastClicked"].ToString().Substring(5));
-                CheckAll();
-                if (GameFinished())
-                {
-                    Response.Write("<SCRIPT>alert('Game finished')</SCRIPT>");
+                int value = Int32.Parse(Request["__EVENTARGUMENT"]) - 48;
 
-                }
+                playMove(index+1, value);
+                game.addToStack(index+1, value);
             }
 
         }
@@ -324,6 +341,20 @@ namespace IT
                 }
                 mom++;
             }
+        }
+
+        protected void btnUndo_Click(object sender, EventArgs e)
+        {
+            GameItem item = game.undo();
+            if (item == null) return;
+            playMove(item.index, 0);
+        }
+
+        protected void btnRedo_Click(object sender, EventArgs e)
+        {
+            GameItem item = game.redo();
+            if (item == null) return;
+            playMove(item.index, item.value);
         }
     }
 }

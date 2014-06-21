@@ -138,15 +138,21 @@
                 <div class="buttons">
                     <asp:Button runat="server" ID="easy" OnClick="new_Easy" Text="Easy Game" />
                     
-                    </br>
+                    <br/>
                     <asp:Button  runat="server" ID="medium" OnClick="new_Medium" Text="Medium Game"/>
                     
-                    </br>
+                    <br/>
                     <asp:Button runat="server" ID="hard" OnClick="new_Hard" Text="Hard Game"/>
                     
-                    </br>
+                    <br/>
                     <input type="button" value="About" onclick="about()"/>
-
+                    <br />
+                    <asp:Button runat="server" ID="btnHighScores" Text="High Scores"/>
+                    <br />
+                    <br />
+                    <br />
+                    <asp:Button runat="server" ID="btnUndo" Text="Undo" OnClick="btnUndo_Click"/>
+                    <asp:Button runat="server" ID="btnRedo" Text="Redo" OnClick="btnRedo_Click"/>
                 </div>
                 <asp:Table ID="Table1" runat="server">
 

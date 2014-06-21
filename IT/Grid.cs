@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using IT;
 
 namespace Sudoku
 {
@@ -10,7 +11,8 @@ namespace Sudoku
     public class Grid
     {
         public Sudoku game;
-
+        public Stack<GameItem> undoStack;
+        public Stack<GameItem> redoStack;
         public List<int> values;
         public List<int> errorList;
         public List<int> firstGenerated;
@@ -49,7 +51,29 @@ namespace Sudoku
             {
                 game.GenerateGame(GameLevel.COMPLEX);
             }
+            undoStack = new Stack<GameItem>();
+            redoStack = new Stack<GameItem>();
         }
-        
+
+        public void addToStack(int index, int value)
+        {
+            undoStack.Push(new GameItem(index, value));
+            redoStack.Clear();
+        }
+        public GameItem undo()
+        {
+            if (undoStack.Count == 0) return null;
+
+            GameItem item = undoStack.Pop();
+            redoStack.Push(item);
+            return item;
+        }
+        public GameItem redo()
+        {
+            if (redoStack.Count == 0) return null;
+            GameItem item = redoStack.Pop();
+            undoStack.Push(item);
+            return item;
+        }
     }
 }

@@ -76,6 +76,33 @@ namespace IT {
         protected global::System.Web.UI.WebControls.Button hard;
         
         /// <summary>
+        /// btnHighScores control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnHighScores;
+        
+        /// <summary>
+        /// btnUndo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnUndo;
+        
+        /// <summary>
+        /// btnRedo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnRedo;
+        
+        /// <summary>
         /// Table1 control.
         /// </summary>
         /// <remarks>
