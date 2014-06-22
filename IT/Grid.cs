@@ -27,7 +27,7 @@ namespace Sudoku
         {
             game = new Sudoku();
             this.gameDiff = gameDiff;
-           
+
             firstGenerated = new List<int>();
             values = new List<int>();
             errorList = new List<int>();
@@ -74,6 +74,20 @@ namespace Sudoku
             GameItem item = redoStack.Pop();
             undoStack.Push(item);
             return item;
+        }
+        public GameItem getHint()
+        {
+            if (numberOfHints == 0) return null;
+            int position = new Random().Next(1, 82);
+
+            int i = (position - 1) / 9;
+            int j = (position - 1) % 9;
+            int value = game._numberSet[i, j];
+            return new GameItem(position, value);
+        }
+        public void decreaseHints()
+        {
+            numberOfHints -= 1;
         }
     }
 }

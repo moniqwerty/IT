@@ -15,7 +15,7 @@ namespace IT
     public partial class Default : System.Web.UI.Page
     {
         Grid game;
-        
+
         public int time { get; set; } // TODO
 
         public List<Label> labels;
@@ -42,14 +42,14 @@ namespace IT
                 //label.EnableViewState = true;
                 labels.Add(label);
             }
-            
-                        
+
+
             // se izvrsuva pri prvo loadiranje. generira novo nivo na sudoku
             if (!IsPostBack)
             {
                 game = new Grid(1);
 
-                
+
                 int[,] set = game.game._numberSet;
                 int[,] mset = game.game._problemSet;
 
@@ -79,7 +79,7 @@ namespace IT
         {
             foreach (Label l in labels)
             {
-                l.Text = ""; 
+                l.Text = "";
             }
         }
         private bool GameFinished()
@@ -164,7 +164,7 @@ namespace IT
         protected void Grid_Click(object sender, EventArgs e)
         {
             updateCell(Request["__EVENTARGUMENT"]);
-            
+
         }
         public void updateCell(String labelName)
         {
@@ -182,7 +182,7 @@ namespace IT
             ViewState["lastClicked"] = lbl.ID;
             td = (TableCell)lbl.Parent;
             td.CssClass = "selected";
-            
+
             //td.BackColor = Color.Beige;
             //  lbl.BackColor = Color.Yellow;
         }
@@ -201,13 +201,13 @@ namespace IT
             {
                 lastClicked.Text = value + "";
             }
-            
+
             CheckAll();
             if (GameFinished())
             {
-                
+
                 //Response.Write("<SCRIPT>alert('Game finished, Your score is "+ secondsTotal + " !')</SCRIPT>");
-            }            
+            }
         }
 
         protected void keyPress(object sender, EventArgs e)
@@ -215,7 +215,7 @@ namespace IT
 
             if (ViewState["lastClicked"] != null)
             {
-                int index = int.Parse(((string)ViewState["lastClicked"]).Substring(5))-1;
+                int index = int.Parse(((string)ViewState["lastClicked"]).Substring(5)) - 1;
                 Grid game = (Grid)ViewState["game"];
                 if (game.firstGenerated.Contains(index))
                 {
@@ -224,8 +224,8 @@ namespace IT
 
                 int value = Int32.Parse(Request["__EVENTARGUMENT"]) - 48;
 
-                playMove(index+1, value);
-                game.addToStack(index+1, value);
+                playMove(index + 1, value);
+                game.addToStack(index + 1, value);
             }
 
         }
@@ -258,7 +258,7 @@ namespace IT
             }
             ViewState["game"] = game;
             Session["time"] = 0;
-
+            lblTezina.Text = "EASY";
         }
         protected void new_Medium(object sender, EventArgs e)
         {
@@ -289,7 +289,7 @@ namespace IT
             }
             ViewState["game"] = game;
             Session["time"] = 0;
-
+            lblTezina.Text = "MEDIUM";
         }
         protected void new_Hard(object sender, EventArgs e)
         {
@@ -320,7 +320,7 @@ namespace IT
             }
             ViewState["game"] = game;
             Session["time"] = 0;
-
+            lblTezina.Text = "HARD";
         }
 
         public void CheckAll()
@@ -344,8 +344,8 @@ namespace IT
                     }
                     else
                     {
-                        if (!game.firstGenerated.Contains(mom - 1))
-                            l.ForeColor = Color.Red;
+                        //if (!game.firstGenerated.Contains(mom - 1))
+                        //    l.ForeColor = Color.Red;
                         if (!game.errorList.Contains(mom))
                         {
                             game.errorList.Add(mom);
@@ -383,7 +383,7 @@ namespace IT
                 case 38:
                     nextindex = index - 9;
                     break;
-                case 39: 
+                case 39:
                     nextindex = index + 1;
                     break;
                 case 40:
@@ -396,14 +396,54 @@ namespace IT
 
         protected void Timer1_Tick(object sender, EventArgs e)
         {
-            int t = (int)Session["time"] + 1 ;
+            int t = (int)Session["time"] + 1;
             Session["time"] = t;
-            int h = t/3600;
-            int m = t%3600/60;
-            int s = t%60;
+            int h = t / 3600;
+            int m = t % 3600 / 60;
+            int s = t % 60;
             hours.Text = (h > 9 ? h + "" : "0" + h);
             minutes.Text = (m > 9 ? m + "" : "0" + m);
             seconds.Text = (s > 9 ? s + "" : "0" + s);
+        }
+
+        protected void btnHint_Click(object sender, EventArgs e)
+        {
+            Grid game = (Grid)ViewState["game"];
+
+            while (true)
+            {
+                GameItem item = game.getHint();
+                int position = item.index;
+                int value = item.value;
+
+                Label label = (Label)FindControl("Label" + position);
+
+                if (label.Text.Length == 0)
+                {
+                    playMove(position, value);
+                    game.addToStack(position, value);
+                }
+                else
+                {
+                    int currentValue = int.Parse(label.Text);
+                    if (currentValue == value)
+                    {
+                        continue;
+                    }
+                    playMove(position, value);
+                    game.addToStack(position, value);
+
+                }
+                label.ForeColor = Color.Red;
+                break;
+            }
+            game.decreaseHints();
+            if (game.numberOfHints == 0)
+            {
+                btnHint.Enabled = false;
+                btnHint.ForeColor = Color.Gray;
+            }
+
         }
     }
 }

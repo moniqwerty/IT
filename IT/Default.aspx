@@ -30,7 +30,6 @@
             width: 100px;
             float: left;
             margin-left: 130px;
-            margin-top: 200px;
         }
 
         .content {
@@ -38,13 +37,14 @@
             width: 998px;
             background-image: url('dragon.jpg');
             margin-top: -20px;
+            padding-top:30px;
         }
 
         table {
             border-collapse: collapse;
             font-family: Calibri, sans-serif;
             margin-left: 100px;
-            margin-top: 50px;
+            margin-top: -50px;
             background: rgba(245,245,220,0.68);
         }
 
@@ -135,6 +135,7 @@
                     EnablePageMethods="true"
                     EnablePartialRendering="true" runat="server" />
                 <asp:Timer ID="timer" runat="server" Interval="1000" OnTick="Timer1_Tick"></asp:Timer>
+                <asp:Label runat="server" id="lblTezina" ></asp:Label>
                 <asp:UpdatePanel ID="updatePanel" runat="server">
                     <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="timer" />
@@ -172,6 +173,7 @@
                     <br />
                     <br />
                     <br />
+                    <asp:Button runat="server" ID="btnHint" Text="Hint" OnClick="btnHint_Click" />
                     <asp:Button runat="server" ID="btnUndo" Text="Undo" OnClick="btnUndo_Click" />
                     <asp:Button runat="server" ID="btnRedo" Text="Redo" OnClick="btnRedo_Click" />
                 </div>
