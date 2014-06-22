@@ -16,24 +16,13 @@
             
             <br />
             <br />
-          <asp:GridView ID="gvHighScores" runat="server" DataSourceID="sourceHardHighScores" AutoGenerateColumns="False" DataKeyNames="ID">
+          <asp:GridView ID="gvHighScores" runat="server" AutoGenerateColumns="False" DataKeyNames="ID">
                 <Columns>                    
                     <asp:BoundField DataField="ID" Visible="false" HeaderText="ID"/>
                     <asp:BoundField DataField="Username" HeaderText="Player Name" />
                     <asp:BoundField DataField="Highscore" HeaderText="HighScore" />
                 </Columns>
             </asp:GridView>
-           <!-- <asp:SqlDataSource ID="sourceEasyHighScores" runat="server"
-                ConnectionString="<%$ ConnectionStrings:Sudoku %>"
-                SelectCommand="SELECT ID, Username, Highscore FROM EasyHighScores"
-                />
-            <asp:SqlDataSource ID="sourceMediumHighScores" runat="server"
-                ConnectionString="<%ConnectionStrings:Sudoku %>"
-                SelectCommand="Select ID, Username, Highscore FROM MediumHighScores" />
-            --><asp:SqlDataSource ID="sourceHardHighScores" runat="server"
-                ConnectionString="<%ConnectionStrings:Sudoku %>"
-                SelectCommand="Select ID, Username, Highscore FROM HardHighScores" />
-                
         </div>
     </form>
 </body>

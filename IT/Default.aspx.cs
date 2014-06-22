@@ -9,6 +9,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Web.Services;
+using System.Web.Configuration;
+using System.Data.SqlClient;
 
 namespace IT
 {
@@ -28,6 +30,8 @@ namespace IT
             {
                 Session["time"] = 0;
             }
+            //insertIntoDatabase("user123", 15, 3);
+
 
             //Response.Write("<SCRIPT>alert('Game finished')</SCRIPT>");
             if (ViewState["game"] != null)
@@ -47,30 +51,7 @@ namespace IT
             // se izvrsuva pri prvo loadiranje. generira novo nivo na sudoku
             if (!IsPostBack)
             {
-                game = new Grid(1);
-
-
-                int[,] set = game.game._numberSet;
-                int[,] mset = game.game._problemSet;
-
-                int k = 0;
-                for (int i = 0; i < 9; i++)
-                {
-                    for (int j = 0; j < 9; j++)
-                    {
-
-                        if (mset[i, j] != 0)
-                        {
-                            game.values[k] = mset[i, j];
-
-                            labels[k].Text = Convert.ToString(game.values[k]);
-                            labels[k].Font.Bold = true;
-                            game.firstGenerated.Add(k);
-                        }
-                        k++;
-                    }
-
-                }
+                new_Easy(null,null);
                 ViewState["game"] = game;
 
             }
@@ -114,37 +95,8 @@ namespace IT
                     return false;
                 }
             }
-            int xi = 0, yi = 0, xj = 0, yj = 0;
-            if ((i >= 0) && (i <= 2))
-            {
-                xi = 0;
-                yi = 2;
-            }
-            else if ((i >= 3) && (i <= 5))
-            {
-                xi = 3;
-                yi = 5;
-            }
-            else if ((i >= 6) && (i <= 8))
-            {
-                xi = 6;
-                yi = 8;
-            }
-            if ((j >= 0) && (j <= 2))
-            {
-                xj = 0;
-                yj = 2;
-            }
-            else if ((j >= 3) && (j <= 5))
-            {
-                xj = 3;
-                yj = 5;
-            }
-            else if ((j >= 6) && (j <= 8))
-            {
-                xj = 6;
-                yj = 8;
-            }
+            int xi = (i / 3) * 3, yi = (xi + 2);
+            int xj = (j / 3) * 3, yj = (xj + 2);
 
             for (int k = xi; k <= yi; k++)
             {
@@ -205,9 +157,47 @@ namespace IT
             CheckAll();
             if (GameFinished())
             {
+                //
+                // generiranje na random username
+                string username = "user" + new Random().Next(100);
+                //
+                //
+                int score = (int)Session["time"];
+                int difficulty = game.gameDiff;
+                insertIntoDatabase(username, score, difficulty);
 
                 //Response.Write("<SCRIPT>alert('Game finished, Your score is "+ secondsTotal + " !')</SCRIPT>");
             }
+        }
+
+        private void insertIntoDatabase(string username, int score, int difficulty)
+        {
+            string connectionstring = WebConfigurationManager.ConnectionStrings["Sudoku"].ConnectionString;
+            SqlConnection con = new SqlConnection(connectionstring);
+
+            string table = "";
+            Grid game = (Grid) ViewState["game"];
+            if (difficulty == 3) //TEST
+            {
+                table = "EasyHighScores";
+            }
+            if (difficulty == 0) //SIMPLE
+            {
+                table = "EasyHighScores";
+            }
+            if (difficulty == 1) // MEDIUM
+            {
+                table = "MediumHighScores";
+            }
+            if (difficulty == 2) //COMPLEX
+            {
+                table = "HardHighScores";
+            }
+            string statement = "INSERT INTO "+table+" (Username, Highscore) VALUES ( '"+ username + "' , " + score+ " )";
+            con.Open();
+            SqlCommand cmd = new SqlCommand(statement, con);
+            cmd.ExecuteNonQuery();
+            Response.Redirect("~/HighScores.aspx?diff="+difficulty);
         }
 
         protected void keyPress(object sender, EventArgs e)
@@ -229,6 +219,8 @@ namespace IT
             }
 
         }
+
+
         protected void new_Easy(object sender, EventArgs e)
         {
             empty();
@@ -344,8 +336,8 @@ namespace IT
                     }
                     else
                     {
-                        //if (!game.firstGenerated.Contains(mom - 1))
-                        //    l.ForeColor = Color.Red;
+                        if (!game.firstGenerated.Contains(mom - 1))
+                            l.ForeColor = Color.Red;
                         if (!game.errorList.Contains(mom))
                         {
                             game.errorList.Add(mom);
