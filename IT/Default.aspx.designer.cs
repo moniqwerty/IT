@@ -94,6 +94,24 @@ namespace IT {
         protected global::System.Web.UI.WebControls.Label seconds;
         
         /// <summary>
+        /// btnUndo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnUndo;
+        
+        /// <summary>
+        /// btnRedo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnRedo;
+        
+        /// <summary>
         /// btnHidden control.
         /// </summary>
         /// <remarks>
@@ -119,6 +137,15 @@ namespace IT {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnHidden3;
+        
+        /// <summary>
+        /// btnHint control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnHint;
         
         /// <summary>
         /// easy control.
@@ -155,33 +182,6 @@ namespace IT {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnHighScores;
-        
-        /// <summary>
-        /// btnHint control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnHint;
-        
-        /// <summary>
-        /// btnUndo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnUndo;
-        
-        /// <summary>
-        /// btnRedo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnRedo;
         
         /// <summary>
         /// Table1 control.

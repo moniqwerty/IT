@@ -30,8 +30,32 @@
             width: 100px;
             float: left;
             margin-left: 130px;
+            margin-top: -50px;
         }
 
+        .floating{
+            float:none;
+            width: 30px;
+            height:30px;
+            margin-bottom: -30px;            
+            align-self:center;            
+            display:block;
+            background-color: transparent !important;
+            border: none !important;
+        }
+        .undo {
+            background: url('Undo-icon.png') no-repeat 0px 0px;
+            margin-right: 150px;
+        }
+        .redo {
+            background: url('Undo-icon.png') no-repeat 0px 0px;
+            margin-right: 100px;
+        }
+
+        .hint{
+            width: 70px;
+            margin-left: 50px;
+        }
         .content {
             height: 715px;
             width: 998px;
@@ -63,13 +87,14 @@
         }
 
         input[type=button], input[type=submit] {
-            background-color: beige;
+            background-color:#CEC69F;  
         }
 
         input {
+            font-family: Papyrus;
+            font-weight: bold;
             color: #000000;
             text-decoration: none;
-            height: 100%;
             width: 100%;
         }
 
@@ -152,30 +177,30 @@
 
                 </asp:UpdatePanel>
 
+                <asp:Button runat="server" ID="btnUndo" CssClass="floating undo" OnClick="btnUndo_Click" />
+                <asp:Button runat="server" ID="btnRedo" CssClass="floating redo" OnClick="btnRedo_Click" />
+
                 <asp:Button Style="display: none;" runat="server" ID="btnHidden" OnClick="Grid_Click" />
                 <asp:Button Style="display: none;" runat="server" ID="btnHidden2" OnClick="keyPress" />
                 <asp:Button Style="display: none;" runat="server" ID="btnHidden3" OnClick="keyDown" />
 
                 <p>&nbsp;</p>
                 <div class="buttons">
-                    <asp:Button runat="server" ID="easy" OnClick="new_Easy" Text="Easy Game" />
+                    <asp:Button runat="server" ID="btnHint" Text="Hint 3" OnClick="btnHint_Click" CssClass="hint"/>      
+                    <br />
+                    <br />
+                    <asp:Button runat="server" ID="easy" OnClick="new_Easy" Text="Easy" />
 
                     <br />
-                    <asp:Button runat="server" ID="medium" OnClick="new_Medium" Text="Medium Game" />
+                    <asp:Button runat="server" ID="medium" OnClick="new_Medium" Text="Medium" />
 
                     <br />
-                    <asp:Button runat="server" ID="hard" OnClick="new_Hard" Text="Hard Game" />
+                    <asp:Button runat="server" ID="hard" OnClick="new_Hard" Text="Hard" />
 
                     <br />
-                    <input type="button" value="About" onclick="about()" />
+                    <asp:Button runat="server" ID="btnHighScores" Text="High Scores" OnClick="btnHighScores_Click" />
                     <br />
-                    <asp:Button runat="server" ID="btnHighScores" Text="High Scores" />
-                    <br />
-                    <br />
-                    <br />
-                    <asp:Button runat="server" ID="btnHint" Text="Hint" OnClick="btnHint_Click" />
-                    <asp:Button runat="server" ID="btnUndo" Text="Undo" OnClick="btnUndo_Click" />
-                    <asp:Button runat="server" ID="btnRedo" Text="Redo" OnClick="btnRedo_Click" />
+                    <input type="button" value="About" onclick="about()" />                                  
                 </div>
                 <asp:Table ID="Table1" runat="server">
 
