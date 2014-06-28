@@ -51,7 +51,7 @@ namespace IT
             // se izvrsuva pri prvo loadiranje. generira novo nivo na sudoku
             if (!IsPostBack)
             {
-                new_Easy(null,null);
+                new_Easy(null, null);
                 ViewState["game"] = game;
 
             }
@@ -165,13 +165,41 @@ namespace IT
                 int score = (int)Session["time"];
                 int difficulty = game.gameDiff;
                 Session["score"] = score;
-                Response.Redirect("~/Register.aspx?diff="+ difficulty);
+                Response.Redirect("~/Register.aspx?diff=" + difficulty);
                 //insertIntoDatabase(username, score, difficulty);
 
                 //Response.Write("<SCRIPT>alert('Game finished, Your score is "+ secondsTotal + " !')</SCRIPT>");
             }
         }
+        private void insertIntoDatabase(string username, int score, int difficulty)
+        {
+            string connectionstring = WebConfigurationManager.ConnectionStrings["Sudoku"].ConnectionString;
+            SqlConnection con = new SqlConnection(connectionstring);
 
+            string table = "";
+            Grid game = (Grid)ViewState["game"];
+            if (difficulty == 3) //TEST
+            {
+                table = "EasyHighScores";
+            }
+            if (difficulty == 0) //SIMPLE
+            {
+                table = "EasyHighScores";
+            }
+            if (difficulty == 1) // MEDIUM
+            {
+                table = "MediumHighScores";
+            }
+            if (difficulty == 2) //COMPLEX
+            {
+                table = "HardHighScores";
+            }
+            string statement = "INSERT INTO " + table + " (Username, Highscore) VALUES ( '" + username + "' , " + score + " )";
+            con.Open();
+            SqlCommand cmd = new SqlCommand(statement, con);
+            cmd.ExecuteNonQuery();
+            Response.Redirect("~/HighScores.aspx?diff=" + difficulty);
+        }
         protected void keyPress(object sender, EventArgs e)
         {
 
@@ -402,7 +430,7 @@ namespace IT
                 break;
             }
             game.decreaseHints();
-            btnHint.Text = "Hint "+game.numberOfHints;
+            btnHint.Text = "Hint " + game.numberOfHints;
 
             if (game.numberOfHints == 0)
             {
@@ -416,7 +444,7 @@ namespace IT
         protected void btnHighScores_Click(object sender, EventArgs e)
         {
             int difficulty = game.gameDiff;
-            Response.Redirect("~/HighScores.aspx?diff="+ difficulty);
+            Response.Redirect("~/HighScores.aspx?diff=" + difficulty);
         }
     }
 }

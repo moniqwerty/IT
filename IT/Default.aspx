@@ -48,7 +48,7 @@
             margin-right: 150px;
         }
         .redo {
-            background: url('Undo-icon.png') no-repeat 0px 0px;
+            background: url('Redo-icon.png') no-repeat 0px 0px;
             margin-right: 100px;
         }
 
